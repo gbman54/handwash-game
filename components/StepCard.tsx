@@ -1,33 +1,19 @@
-"use client";
-
 import StepIcon from "./StepIcon";
 
 type Step = {
   id: number;
-  ar: string;
-  en: string;
-  icon: string;
+  title: string;
+  arabic: string;
 };
 
-export default function StepCard({
-  step,
-  compact = false,
-  onTap
-}: {
-  step: Step;
-  compact?: boolean;
-  onTap?: () => void;
-}) {
+export default function StepCard({ step }: { step: Step }) {
   return (
-    <button className={`card ${compact ? "compact" : ""}`} onClick={onTap}>
-      <div className="cardTop">
-        <span className="badge">{step.id}</span>
-        <StepIcon name={step.icon} />
+    <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm transition hover:shadow-md">
+      <div className="mb-3 aspect-square rounded-xl bg-sky-50 p-2">
+        <StepIcon step={step.id} />
       </div>
-      <div className="cardText">
-        <div className="ar">{step.ar}</div>
-        <div className="en">{step.en}</div>
-      </div>
-    </button>
+      <p className="text-center text-sm font-medium leading-snug text-slate-800">{step.title}</p>
+      <p className="mt-1 text-center text-xs leading-snug text-slate-500">{step.arabic}</p>
+    </div>
   );
 }
