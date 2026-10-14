@@ -5,128 +5,93 @@ import StepCard from "./StepCard";
 
 type Step = {
   id: number;
-  ar: string;
-  en: string;
-  icon: string;
+  title: string;
+  arabic: string;
 };
 
 const steps: Step[] = [
-  { id: 1, ar: "بلل يديك بالماء", en: "Wet hands with water", icon: "water" },
-  { id: 2, ar: "ضع كمية كافية من الصابون لتغطية جميع أسطح اليدين", en: "Apply enough soap to cover all hand surfaces", icon: "soap" },
-  { id: 3, ar: "افرك راحتي اليدين معًا", en: "Rub hands palm to palm", icon: "palm" },
-  { id: 4, ar: "افرك راحة اليد اليمنى على ظهر اليد اليسرى مع تشبيك الأصابع والعكس", en: "Right palm over left dorsum with interlaced fingers and vice versa", icon: "back" },
-  { id: 5, ar: "افرك راحة اليدين مع تشبيك الأصابع", en: "Palm to palm with fingers interlaced", icon: "interlaced" },
-  { id: 6, ar: "افرك ظهر الأصابع على راحة اليد الأخرى مع تشبيك الأصابع", en: "Backs of fingers to opposing palms with fingers interlocked", icon: "fingers" },
-  { id: 7, ar: "افرك الإبهام بحركة دائرية داخل راحة اليد الأخرى والعكس", en: "Rotational rubbing of left thumb clasped in right palm and vice versa", icon: "thumb" },
-  { id: 8, ar: "افرك أطراف الأصابع بحركة دائرية داخل راحة اليد الأخرى والعكس", en: "Rotational rubbing, backwards and forwards with clasped fingers of right hand in left palm and vice versa", icon: "tips" },
-  { id: 9, ar: "اشطف يديك بالماء", en: "Rinse hands with water", icon: "rinse" },
-  { id: 10, ar: "جفف يديك جيدًا بمنشفة تستخدم مرة واحدة", en: "Dry thoroughly with a single use towel", icon: "dry" },
-  { id: 11, ar: "استخدم المنشفة لإغلاق الصنبور", en: "Use towel to turn off faucet", icon: "faucet" },
-  { id: 12, ar: "وأصبحت يداك آمنتين", en: "And your hands are safe", icon: "safe" }
+  { id: 1, title: "Wet hands with water", arabic: "بلل يديك بالماء" },
+  { id: 2, title: "Apply enough soap to cover all hand surfaces", arabic: "ضع كمية كافية من الصابون لتغطية جميع أسطح اليدين" },
+  { id: 3, title: "Rub hands palm to palm", arabic: "افرك راحتي اليدين معًا" },
+  { id: 4, title: "Right palm over left dorsum with interlaced fingers and vice versa", arabic: "افرك راحة اليد اليمنى على ظهر اليد اليسرى مع تشبيك الأصابع والعكس" },
+  { id: 5, title: "Palm to palm with fingers interlaced", arabic: "افرك راحة اليدين مع تشبيك الأصابع" },
+  { id: 6, title: "Backs of fingers to opposing palms with fingers interlocked", arabic: "افرك ظهر الأصابع على راحة اليد الأخرى مع تشبيك الأصابع" },
+  { id: 7, title: "Rotational rubbing of left thumb clasped in right palm and vice versa", arabic: "افرك الإبهام بحركة دائرية داخل راحة اليد الأخرى والعكس" },
+  { id: 8, title: "Rotational rubbing, backwards and forwards with clasped fingers of right hand in left palm and vice versa", arabic: "افرك أطراف الأصابع بحركة دائرية داخل راحة اليد الأخرى والعكس" },
+  { id: 9, title: "Rinse hands with water", arabic: "اشطف يديك بالماء" },
+  { id: 10, title: "Dry thoroughly with a single use towel", arabic: "جفف يديك جيدًا بمنشفة تستخدم مرة واحدة" },
+  { id: 11, title: "Use towel to turn off faucet", arabic: "استخدم المنشفة لإغلاق الصنبور" },
+  { id: 12, title: "And your hands are safe", arabic: "وأصبحت يداك آمنتين" }
 ];
 
 export default function Game() {
-  const [bank, setBank] = useState<Step[]>(() => shuffle(steps));
-  const [slots, setSlots] = useState<(Step | null)[]>(
-    Array.from({ length: steps.length }, () => null)
-  );
-  const [message, setMessage] = useState("");
+  const shuffled = useMemo(() => [...steps].sort(() => Math.random() - 0.5), []);
+  const [available, setAvailable] = useState(shuffled);
+  const [placed, setPlaced] = useState<(Step | null)[]>(Array(12).fill(null));
 
-  const placedCount = useMemo(() => slots.filter(Boolean).length, [slots]);
+  const placeStep = (step: Step) => {
+    const nextIndex = placed.findIndex((slot) => slot === null);
+    if (nextIndex === -1) return;
 
-  function reset() {
-    setBank(shuffle(steps));
-    setSlots(Array.from({ length: steps.length }, () => null));
-    setMessage("");
-  }
-
-  function placeIntoFirstOpen(step: Step) {
-    const idx = slots.findIndex((s) => s === null);
-    if (idx === -1) return;
-    setBank((prev) => prev.filter((s) => s.id !== step.id));
-    setSlots((prev) => {
-      const next = [...prev];
-      next[idx] = step;
-      return next;
+    setPlaced((prev) => {
+      const copy = [...prev];
+      copy[nextIndex] = step;
+      return copy;
     });
-  }
 
-  function checkAnswer() {
-    const correct = slots.every((s, i) => s?.id === steps[i].id);
-    setMessage(correct ? "Correct! Great job." : "Not quite. Try again.");
-  }
+    setAvailable((prev) => prev.filter((s) => s.id !== step.id));
+  };
+
+  const reset = () => {
+    setAvailable(shuffled);
+    setPlaced(Array(12).fill(null));
+  };
+
+  const checkAnswer = () => {
+    const ok = placed.every((step, index) => step?.id === index + 1);
+    alert(ok ? "Correct!" : "Not in the right order yet.");
+  };
 
   return (
-    <main className="app">
-      <header className="hero">
-        <img src="/logo.png" alt="Logo" className="logo" />
-        <div>
-          <div className="eyebrow">إدارة الصحة العامة ومكافحة العدوى</div>
-          <h1>How do I wash my hands properly?</h1>
-          <h2>كيف أغسل يدي بصورة صحيحة؟</h2>
-        </div>
-      </header>
-
-      <section className="layout">
-        <div className="panel">
-          <h3>Step cards</h3>
-          <div className="grid">
-            {bank.map((step) => (
-              <StepCard
-                key={step.id}
-                step={step}
-                onTap={() => placeIntoFirstOpen(step)}
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className="panel">
-          <h3>Your order</h3>
-          <div className="slots">
-            {slots.map((slot, i) => (
-              <div key={i} className="slot">
-                {slot ? (
-                  <StepCard
-                    step={slot}
-                    compact
-                    onTap={() => {
-                      setSlots((prev) => {
-                        const next = [...prev];
-                        const removed = next[i];
-                        next[i] = null;
-                        if (removed) setBank((b) => shuffle([...b, removed]));
-                        return next;
-                      });
-                    }}
-                  />
-                ) : (
-                  <div className="slotPlaceholder">Step {i + 1}</div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div className="actions">
-            <button onClick={checkAnswer}>Check Answer</button>
-            <button onClick={reset} className="secondary">
-              Reset
+    <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+      <section>
+        <h2 className="mb-3 text-sm font-semibold text-slate-600">Step cards</h2>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+          {available.map((step) => (
+            <button key={step.id} onClick={() => placeStep(step)} className="text-left">
+              <StepCard step={step} />
             </button>
-          </div>
-
-          <p className={`message ${message.includes("Correct") ? "good" : "bad"}`}>
-            {message}
-          </p>
-
-          <p className="progress">
-            Placed: {placedCount}/{steps.length}
-          </p>
+          ))}
         </div>
       </section>
-    </main>
-  );
-}
 
-function shuffle<T>(arr: T[]) {
-  return [...arr].sort(() => Math.random() - 0.5);
+      <aside className="rounded-3xl bg-white p-4 shadow-sm">
+        <h2 className="mb-3 text-sm font-semibold text-slate-600">Your order</h2>
+
+        <div className="grid grid-cols-3 gap-2">
+          {placed.map((step, index) => (
+            <div
+              key={index}
+              className="flex min-h-20 items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-2 text-center text-xs text-slate-400"
+            >
+              {step ? step.title : `Step ${index + 1}`}
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 flex gap-2">
+          <button onClick={checkAnswer} className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white">
+            Check Answer
+          </button>
+          <button onClick={reset} className="rounded-xl bg-slate-200 px-4 py-2 text-sm font-medium text-slate-800">
+            Reset
+          </button>
+        </div>
+
+        <p className="mt-4 text-sm text-slate-500">
+          Placed: {12 - available.length}/12
+        </p>
+      </aside>
+    </div>
+  );
 }
