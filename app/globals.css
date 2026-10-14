@@ -92,59 +92,90 @@ h2 {
 
 .card {
   width: 100%;
-  min-height: 180px;
-  border: 2px solid var(--border);
+  min-height: 240px;
+  border: 1.5px solid var(--border);
   border-radius: 20px;
   background: #fff;
-  padding: 14px;
+  padding: 12px;
   box-shadow: 0 8px 18px rgba(47, 79, 158, .06);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  text-align: right;
+  justify-content: flex-start;
+  align-items: center;
   cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(26, 60, 117, 0.12);
+  border-color: #9ac2f4;
 }
 
 .card.compact {
-  min-height: 120px;
-  padding: 10px;
+  min-height: 160px;
+  padding: 8px;
 }
 
-.cardTop {
+.cardMedia {
+  width: 100%;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 8px;
-  direction: ltr;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
 }
 
-.badge {
-  width: 32px;
-  height: 32px;
-  border-radius: 999px;
-  background: var(--accent);
-  color: white;
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-  flex: 0 0 auto;
+.stepImage {
+  width: 100%;
+  max-width: 160px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  display: block;
+  border-radius: 6px;
+}
+
+.card.compact .stepImage {
+  max-width: 90px;
 }
 
 .cardText {
-  display: grid;
-  gap: 8px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.card.compact .cardText {
+  margin-top: 6px;
+  gap: 3px;
 }
 
 .ar {
-  font-size: clamp(14px, 1.2vw, 18px);
-  line-height: 1.45;
+  font-size: clamp(12.5px, 1.05vw, 15px);
+  line-height: 1.35;
+  color: #0084c7;
+  font-weight: 700;
   direction: rtl;
 }
 
+.card.compact .ar {
+  font-size: 11.5px;
+  line-height: 1.25;
+}
+
 .en {
-  font-size: clamp(12px, 1vw, 15px);
-  line-height: 1.35;
-  color: #4c5f7f;
+  font-size: clamp(11px, 0.9vw, 13px);
+  line-height: 1.25;
+  color: #0076b6;
+  font-weight: 500;
+}
+
+.card.compact .en {
+  font-size: 10px;
+  line-height: 1.15;
 }
 
 .slots {
@@ -154,11 +185,11 @@ h2 {
 }
 
 .slot {
-  min-height: 120px;
+  min-height: 160px;
 }
 
 .slotPlaceholder {
-  min-height: 120px;
+  min-height: 160px;
   border: 2px dashed #a8c7f2;
   border-radius: 20px;
   display: grid;
@@ -212,22 +243,3 @@ h2 {
     text-align: center;
   }
 }
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f1f5f9;
-}
-
-button {
-  cursor: pointer;
-}
-
