@@ -1,108 +1,118 @@
-type Props = { name: string };
+type Props = {
+  step: number;
+};
 
-export default function StepIcon({ name }: Props) {
+export default function StepIcon({ step }: Props) {
   const common = {
-    width: 64,
-    height: 64,
-    viewBox: "0 0 64 64",
-    fill: "none"
+    fill: "none",
+    stroke: "#2f5fa8",
+    strokeWidth: 3,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
   };
 
-  const stroke = "#2f4f9e";
-  const accent = "#32a4d6";
-
-  switch (name) {
-    case "water":
+  switch (step) {
+    case 1:
       return (
-        <svg {...common}>
-          <path d="M32 8 C24 20, 18 26, 18 36 a14 14 0 0 0 28 0 c0-10-6-16-14-28Z" stroke={accent} strokeWidth="3" />
-          <path d="M26 40c2 4 10 4 12 0" stroke={stroke} strokeWidth="3" strokeLinecap="round" />
+        <svg viewBox="0 0 200 200" className="h-full w-full">
+          <path d="M130 50c10 8 17 18 19 30" {...common} />
+          <path d="M70 120c10-24 28-42 55-54" {...common} />
+          <path d="M78 102c8 8 18 13 31 15" {...common} />
+          <path d="M90 82l10 14 15-9" {...common} />
         </svg>
       );
-    case "soap":
+    case 2:
       return (
-        <svg {...common}>
-          <rect x="18" y="22" width="28" height="22" rx="6" stroke={stroke} strokeWidth="3" />
-          <circle cx="26" cy="31" r="2" fill={accent} />
-          <circle cx="34" cy="31" r="2" fill={accent} />
-          <circle cx="42" cy="31" r="2" fill={accent} />
+        <svg viewBox="0 0 200 200" className="h-full w-full">
+          <path d="M85 25h30v24H85z" {...common} />
+          <path d="M70 55h60l-8 110H78z" {...common} />
+          <path d="M100 95v40" {...common} />
         </svg>
       );
-    case "palm":
+    case 3:
       return (
-        <svg {...common}>
-          <path d="M18 38c4-10 10-16 14-16s10 6 14 16" stroke={stroke} strokeWidth="3" strokeLinecap="round" />
-          <path d="M22 38c4-5 8-5 10 0" stroke={accent} strokeWidth="3" strokeLinecap="round" />
+        <svg viewBox="0 0 200 200" className="h-full w-full">
+          <path d="M52 115c20-35 76-35 96 0" {...common} />
+          <path d="M64 105c18 16 54 16 72 0" {...common} />
+          <path d="M82 80l13 17 16-10" {...common} />
         </svg>
       );
-    case "back":
+    case 4:
       return (
-        <svg {...common}>
-          <path d="M16 40c6-7 14-10 18-10s12 3 14 10" stroke={stroke} strokeWidth="3" strokeLinecap="round" />
-          <path d="M24 26l12 12" stroke={accent} strokeWidth="3" strokeLinecap="round" />
+        <svg viewBox="0 0 200 200" className="h-full w-full">
+          <path d="M48 118h78" {...common} />
+          <path d="M82 72c22 10 39 28 50 52" {...common} />
+          <path d="M72 88l14 14" {...common} />
+          <path d="M120 88l14 14" {...common} />
         </svg>
       );
-    case "interlaced":
+    case 5:
       return (
-        <svg {...common}>
-          <path d="M18 40c4-8 10-12 14-12s10 4 14 12" stroke={stroke} strokeWidth="3" strokeLinecap="round" />
-          <path d="M24 28h16" stroke={accent} strokeWidth="3" strokeLinecap="round" />
-          <path d="M28 24v16" stroke={accent} strokeWidth="3" strokeLinecap="round" />
+        <svg viewBox="0 0 200 200" className="h-full w-full">
+          <path d="M52 116c16-25 59-25 76 0" {...common} />
+          <path d="M78 72v55" {...common} />
+          <path d="M98 72v55" {...common} />
+          <path d="M118 72v45" {...common} />
         </svg>
       );
-    case "fingers":
+    case 6:
       return (
-        <svg {...common}>
-          <path d="M18 42c3-8 9-14 14-14s11 6 14 14" stroke={stroke} strokeWidth="3" strokeLinecap="round" />
-          <path d="M23 28l6 8" stroke={accent} strokeWidth="3" strokeLinecap="round" />
-          <path d="M33 28l6 8" stroke={accent} strokeWidth="3" strokeLinecap="round" />
+        <svg viewBox="0 0 200 200" className="h-full w-full">
+          <path d="M58 122h84" {...common} />
+          <path d="M70 85c20 0 40 12 56 35" {...common} />
+          <path d="M88 72l10 15 15-8" {...common} />
         </svg>
       );
-    case "thumb":
+    case 7:
       return (
-        <svg {...common}>
-          <path d="M20 40c4-8 8-12 12-12s8 4 12 12" stroke={stroke} strokeWidth="3" strokeLinecap="round" />
-          <path d="M37 22c-2 2-3 4-3 7" stroke={accent} strokeWidth="3" strokeLinecap="round" />
+        <svg viewBox="0 0 200 200" className="h-full w-full">
+          <path d="M118 58c-22 10-34 28-34 52" {...common} />
+          <path d="M94 88c18 0 35 10 45 26" {...common} />
+          <path d="M72 122c10-18 26-29 48-31" {...common} />
         </svg>
       );
-    case "tips":
+    case 8:
       return (
-        <svg {...common}>
-          <path d="M18 40c4-8 10-12 14-12s10 4 14 12" stroke={stroke} strokeWidth="3" strokeLinecap="round" />
-          <path d="M26 25l3 6" stroke={accent} strokeWidth="3" strokeLinecap="round" />
-          <path d="M32 24l3 6" stroke={accent} strokeWidth="3" strokeLinecap="round" />
-          <path d="M38 25l3 6" stroke={accent} strokeWidth="3" strokeLinecap="round" />
+        <svg viewBox="0 0 200 200" className="h-full w-full">
+          <path d="M52 118c20-18 48-18 72 0" {...common} />
+          <path d="M78 85l10 14 13-10" {...common} />
+          <path d="M111 85l10 14 13-10" {...common} />
+          <path d="M90 121c8 10 15 10 23 0" {...common} />
         </svg>
       );
-    case "rinse":
+    case 9:
       return (
-        <svg {...common}>
-          <path d="M22 20h20v6H22z" stroke={stroke} strokeWidth="3" />
-          <path d="M30 26v18" stroke={accent} strokeWidth="3" strokeLinecap="round" />
-          <path d="M24 34h16" stroke={stroke} strokeWidth="3" strokeLinecap="round" />
+        <svg viewBox="0 0 200 200" className="h-full w-full">
+          <path d="M70 45c17 18 22 35 22 54 0 19-12 34-27 34s-27-15-27-34c0-19 5-36 32-54z" {...common} />
+          <path d="M122 55c14 14 14 40 0 54" {...common} />
         </svg>
       );
-    case "dry":
+    case 10:
       return (
-        <svg {...common}>
-          <path d="M18 38c4-8 10-12 14-12s10 4 14 12" stroke={stroke} strokeWidth="3" strokeLinecap="round" />
-          <path d="M22 20h20" stroke={accent} strokeWidth="3" strokeLinecap="round" />
-          <path d="M24 46h16" stroke={accent} strokeWidth="3" strokeLinecap="round" />
+        <svg viewBox="0 0 200 200" className="h-full w-full">
+          <path d="M56 112c10-22 25-33 44-33s34 11 44 33" {...common} />
+          <path d="M72 84l11 17 13-9" {...common} />
+          <path d="M104 84l11 17 13-9" {...common} />
+          <path d="M98 120l10 16" {...common} />
         </svg>
       );
-    case "faucet":
+    case 11:
       return (
-        <svg {...common}>
-          <path d="M20 22h16v6H20z" stroke={stroke} strokeWidth="3" />
-          <path d="M34 28h10v6H34z" stroke={stroke} strokeWidth="3" />
-          <path d="M28 34v10" stroke={accent} strokeWidth="3" strokeLinecap="round" />
+        <svg viewBox="0 0 200 200" className="h-full w-full">
+          <path d="M55 70h90" {...common} />
+          <path d="M88 70v44" {...common} />
+          <path d="M88 96c16 8 27 20 34 38" {...common} />
+          <path d="M123 100l18 18" {...common} />
         </svg>
       );
-    case "safe":
+    case 12:
       return (
-        <svg {...common}>
-          <circle cx="32" cy="32" r="16" stroke={accent} strokeWidth="3" />
-          <path d="M24 32l5 5 11-12" stroke={stroke} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+        <svg viewBox="0 0 200 200" className="h-full w-full">
+          <path d="M65 124c12-18 24-26 35-26s23 8 35 26" {...common} />
+          <path d="M71 98v-20" {...common} />
+          <path d="M91 92v-25" {...common} />
+          <path d="M109 92v-25" {...common} />
+          <path d="M129 98v-20" {...common} />
         </svg>
       );
     default:
